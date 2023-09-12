@@ -9,23 +9,17 @@
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               View Type
             </a>
             <ul class="dropdown-menu">
-              <li @click="viewType = 0"><a class="dropdown-item" href="#">Card</a></li>
-              <li @click="viewType = 1"><a class="dropdown-item" href="#">List</a></li>
-              <li @click="viewType = 2"><a class="dropdown-item" href="#">TimeLine</a></li>
+              <li @click="changeViewType(1)"><a class="dropdown-item" href="#">Card</a></li>
+              <li @click="changeViewType(2)"><a class="dropdown-item" href="#">List</a></li>
+              <li @click="changeViewType(3)"><a class="dropdown-item" href="#">TimeLine</a></li>
             </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/mypage">My Page</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" aria-disabled="true">Link</a>
@@ -41,8 +35,19 @@
         <button type="button" class="btn btn-outline-secondary" style="margin-left:5px;"><router-link
             to="/signup">회원가입</router-link></button>
       </div>
-      <div style="margin-left:10px" v-if="isLogin == true">
-        <button>user name</button>
+      <div style="margin-left: 10px" v-if="isLogin">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-outline-secondary">{{ this.$store.state.email }}</button>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item"><router-link to="/mypage">My Page</router-link></li>
+            <li class="dropdown-divider"></li>
+            <li class="dropdown-item">
+              <button class="btn btn-danger" @click="logout">Logout</button>
+            </li>
+          </ul>
+        </li>
       </div>
     </div>
     <div class="body">
@@ -53,7 +58,7 @@
     <router-view></router-view>
     <!-- <PostList :posts="posts"/> -->
   </div>
-  <AppContainer :viewType="viewType" />
+  <AppContainer />
 </template>
 
 <script>
@@ -63,12 +68,23 @@ export default {
   name: 'App',
   data() {
     return {
-      viewType: 0,
-      isLogin: false,
     }
   },
   components: {
     AppContainer,
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+    },
+    changeViewType(viewType) {
+      this.$store.dispatch('changeViewType', viewType);
+    },
   }
 }
 </script>

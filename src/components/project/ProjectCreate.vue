@@ -1,5 +1,5 @@
 <template>
-    상세내용입니다.
+    프로젝트 생성 페이지입니다.
 </template>
 
 <script>
