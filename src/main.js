@@ -1,4 +1,13 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-
-createApp(App).mount('#app')
+import { createApp } from "vue";
+import App from "./App.vue";
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import router from "./router";
+import store from "./store.js";
+import mitt from "mitt";
+let emitter = mitt();
+let app = createApp(App);
+app.config.globalProperties.emitter = emitter;
+app.use(store);
+app.use(router);
+app.mount("#app");
