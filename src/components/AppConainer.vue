@@ -3,9 +3,9 @@
   <ProjectList v-if="viewType == 2"></ProjectList>
   <ProjectTimeLine v-if="viewType == 3"></ProjectTimeLine>
   <br>
-  <router-link to="/project/create"><button type="button" class="btn">➕</button></router-link>
+  <button @click="openProjectModal()" type="button" class="btn">➕</button>
   <Transition name="fade">
-    <router-view></router-view>
+    <ProjectCreate />
   </Transition>
 </template>
 
@@ -13,6 +13,7 @@
 import ProjectCard from "./ProjectCard.vue"
 import ProjectList from "./ProjectList.vue"
 import ProjectTimeLine from "./ProjectTimeLine.vue"
+import ProjectCreate from "./project/ProjectCreate.vue"
 
 export default {
   name: 'AppContainer',
@@ -20,10 +21,16 @@ export default {
     return {
     }
   },
+  methods: {
+    openProjectModal() {
+      this.$store.dispatch("openModal");
+    }
+  },
   components: {
     ProjectCard,
     ProjectList,
     ProjectTimeLine,
+    ProjectCreate,
   },
   computed: {
     viewType() {
