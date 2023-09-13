@@ -23,6 +23,10 @@ export default {
   },
   methods: {
     openProjectModal() {
+      if (!this.isLogin) {
+        alert("로그인을 하십시오.");
+        return
+      }
       this.$store.dispatch("openModal");
     }
   },
@@ -35,6 +39,9 @@ export default {
   computed: {
     viewType() {
       return this.$store.state.viewType;
+    },
+    isLogin() {
+      return this.$store.state.isLogin;
     },
   },
 }
