@@ -1,12 +1,18 @@
 <template>
-    <div v-if="isModal && isLogin">
-        <Title></Title>
-        <Category></Category>
-        <Design></Design>
-        <Duration></Duration>
-        <Progress></Progress>
-        <Proposal></Proposal>
-        <Tech></Tech>
+    <div v-if="isModal" class="modal" style="display: flex">
+        <div class="modal-content">
+            <Title></Title>
+            <Category></Category>
+            <Design></Design>
+            <Duration></Duration>
+            <Progress></Progress>
+            <Proposal></Proposal>
+            <Tech></Tech>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">닫기</button>
+                <button type="button" class="btn btn-primary">저장</button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -20,12 +26,10 @@ import Proposal from "./project/ProjectProposal.vue";
 import Tech from "./project/ProjectTech.vue";
 
 export default {
+    name: "ProjectView",
     computed: {
         isModal() {
             return this.$store.state.isModal;
-        },
-        isLogin() {
-            return this.$store.state.isLogin;
         },
     },
     components: {
@@ -37,6 +41,12 @@ export default {
         Proposal,
         Tech,
     },
+    methods: {
+        closeModal() {
+            // 모달을 닫는 메소드
+            this.$store.dispatch("closeModal");
+        },
+    }
 }
 </script>
 
@@ -99,14 +109,6 @@ label {
 
 }
 
-.button {
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    justify-content: space-between;
-}
 
 /* 닫기 버튼 스타일링 */
 .close {

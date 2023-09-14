@@ -4,6 +4,7 @@ import MemberSignup from "./components/member/MemberSignup.vue";
 import MemberMypage from "./components/member/MemberMypage.vue";
 import ProjectDetail from "./components/project/ProjectDetail.vue";
 import ProjectCreate from "./components/project/ProjectCreate.vue";
+import ProjectView from "./components/ProjectView.vue";
 
 const routes = [
   {
@@ -17,6 +18,10 @@ const routes = [
   {
     path: "/mypage",
     component: MemberMypage,
+  },
+  {
+    path: "/project",
+    component: ProjectView,
   },
   {
     path: "/project/create",

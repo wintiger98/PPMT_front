@@ -4,16 +4,14 @@
   <ProjectTimeLine v-if="viewType == 3"></ProjectTimeLine>
   <br>
   <button @click="openProjectModal()" type="button" class="btn">➕</button>
-  <Transition name="fade">
-    <ProjectCreate />
-  </Transition>
+  <ProjectView />
 </template>
 
 <script>
 import ProjectCard from "./ProjectCard.vue"
 import ProjectList from "./ProjectList.vue"
 import ProjectTimeLine from "./ProjectTimeLine.vue"
-import ProjectCreate from "./project/ProjectCreate.vue"
+import ProjectView from "./ProjectView.vue"
 
 export default {
   name: 'AppContainer',
@@ -34,7 +32,7 @@ export default {
     ProjectCard,
     ProjectList,
     ProjectTimeLine,
-    ProjectCreate,
+    ProjectView,
   },
   computed: {
     viewType() {

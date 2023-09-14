@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="form-group">
         <!-- 프로젝트 제목 표시 (편집 가능하도록 설정) -->
         <h1 ref="editableTitle" @click="editTitle" @input="updateTitle" :contenteditable="isEditing">{{ projectTitle }}</h1>
     </div>
