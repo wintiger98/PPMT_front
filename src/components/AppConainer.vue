@@ -1,7 +1,7 @@
 <template>
-  <ProjectCard v-if="viewType == 1"></ProjectCard>
-  <ProjectList v-if="viewType == 2"></ProjectList>
-  <ProjectTimeLine v-if="viewType == 3"></ProjectTimeLine>
+  <ProjectCard v-if="viewType == 1" :projects="projects"></ProjectCard>
+  <ProjectList v-if="viewType == 2" :projects="projects"></ProjectList>
+  <ProjectTimeLine v-if="viewType == 3" :projects="projects"></ProjectTimeLine>
   <br>
   <button @click="plusButtonEvent" type="button" class="btn">➕</button>
   <ProjectView :projectId="newProjectId" @project:finish="projectInit" />
@@ -21,9 +21,37 @@ export default {
   data() {
     return {
       newProjectId: 0,
+      projects: [],
     }
   },
+  created() {
+    this.getProjects();
+  },
+  mounted() {
+    this.getProjects();
+  },
   methods: {
+    async getProjects() {
+      try {
+        const response = await this.$axios.get(`${this.$store.state.host}/projects?token=${cookies.get('token')}`, {
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+
+        if (parseInt(response.status / 100) == 2) {
+          // 생성 성공시 처리
+          const userProjects = response.data;
+          console.log(userProjects);
+          this.projects = userProjects;
+        } else {
+          alert("프로젝트 생성에 실패했습니다. 다시 시도해주세요");
+        }
+      } catch (error) {
+        console.log(error);
+        alert("프로젝트 생성 중 오류가 발생했습니다");
+      }
+    },
     plusButtonEvent() {
       this.openProjectModal();
       this.createProject();
@@ -58,6 +86,7 @@ export default {
     },
     projectInit() {
       this.newProjectId = 0;
+      this.getProjects();
     },
   },
   components: {

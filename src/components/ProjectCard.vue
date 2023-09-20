@@ -1,5 +1,7 @@
 <template>
-    프로젝트 카드입니다.
+    <div v-for="(project, index) in projects" :key="index">
+        {{ project }}
+    </div>
 </template>
 
 <script>

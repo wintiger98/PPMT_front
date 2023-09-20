@@ -2,8 +2,6 @@ import { createWebHistory, createRouter } from "vue-router";
 import MemberLogin from "./components/member/MemberLogin.vue";
 import MemberSignup from "./components/member/MemberSignup.vue";
 import MemberMypage from "./components/member/MemberMypage.vue";
-import ProjectDetail from "./components/project/ProjectDetail.vue";
-import ProjectCreate from "./components/project/ProjectCreate.vue";
 import ProjectView from "./components/ProjectView.vue";
 
 const routes = [
@@ -22,18 +20,6 @@ const routes = [
   {
     path: "/project",
     component: ProjectView,
-  },
-  {
-    path: "/project/create",
-    component: ProjectCreate,
-  },
-  {
-    path: "/project/view/:project_id",
-    component: ProjectDetail,
-  },
-  {
-    path: "/project/edit/:project_id",
-    component: ProjectDetail,
   },
 ];
 
