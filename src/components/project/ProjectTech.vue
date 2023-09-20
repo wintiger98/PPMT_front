@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="tech">기술 스택</label>
         <div class="stack">
-            <div class="stack-item" v-for="(t, index) in tech" :key="index">
+            <div class="stack-item" v-for="(t, index) in localTech" :key="index">
                 {{ t }}
                 <button class="delete" @click="removeTech(index)"> X </button>
             </div>
@@ -40,16 +40,22 @@
 export default {
     data() {
         return {
-            tech: [],
+            localTech: this.tech,
             newTech: "",
             isAddModalVisible: false,
             toAddTechs: [],
         };
     },
+    props: {
+        tech: {
+            type: Array,
+            default: () => [],
+        },
+    },
     methods: {
         removeTech(index) {
             // 기술 스택 삭제
-            this.tech.splice(index, 1);
+            this.localTech.splice(index, 1);
         },
         removeAddTech(index) {
             // 기술 스택 삭제
@@ -73,8 +79,10 @@ export default {
         addTech() {
             // 추가 모달 창의 결과 저장
             if (this.toAddTechs.length > 0) {
-                this.tech.push(...this.toAddTechs);
+                this.localTech.push(...this.toAddTechs);
                 this.isAddModalVisible = false;
+                const data = { key: "tech", value: this.localTech };
+                this.$emit('update:tech', data);
             } else {
                 alert("기술 스택을 입력하세요!");
             }
@@ -115,4 +123,5 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-}</style>
+}
+</style>

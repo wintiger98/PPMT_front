@@ -64,21 +64,28 @@ export default {
             }
 
             try {
-                const saveData = {
-                    email: this.email,
-                    password: this.password,
-                };
-                const response = await this.$axios.post(`${this.$store.state.host}/auth/login`, saveData, {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
+                const formData = new FormData();
+                formData.append('username', this.email);
+                formData.append('password', this.password);
+
+                const response = await this.$axios.post(
+                    `${this.$store.state.host}/auth/token`,
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
 
                 if (response.status === 200) {
                     // 로그인 성공시 처리
-                    const userData = response.data;
-                    const userId = userData.id; // 서버에서 반환한 데이터 처리
-                    this.$store.dispatch("login", this.email, userId); // 로그인 액션 호출
+                    const returnData = response.data;
+                    const payload = {
+                        email: this.email,
+                        accessToken: returnData.access_token,
+                    }
+                    this.$store.dispatch("login", payload); // 로그인 액션 호출
                     this.$router.push("/"); // 원하는 경로로 리다이렉트
                 } else {
                     // 로그인 실패시 처리

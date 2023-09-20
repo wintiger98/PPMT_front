@@ -1,4 +1,7 @@
 import { createStore } from "vuex";
+import { useCookies } from "vue3-cookies";
+
+const { cookies } = useCookies();
 
 const store = createStore({
   state() {
@@ -8,7 +11,6 @@ const store = createStore({
       email: "",
       viewType: 1,
       isModal: false,
-      userId: "",
     };
   },
   mutations: {
@@ -24,20 +26,21 @@ const store = createStore({
     setIsModal(state, value) {
       state.isModal = value;
     },
-    setUserId(state, value) {
-      state.userId = value;
-    },
   },
   actions: {
-    login({ commit }, email, userId) {
+    login({ commit }, payload) {
+      commit("setIsLogin", true);
+      commit("setEmail", payload.email);
+      cookies.set("token", payload.accessToken);
+    },
+    loadUser({ commit }, email) {
       commit("setIsLogin", true);
       commit("setEmail", email);
-      commit("setUserId", userId);
     },
     logout({ commit }) {
       commit("setIsLogin", false);
       commit("setEmail", "");
-      commit("setUserId", "");
+      cookies.remove("token");
     },
     changeViewType({ commit }, viewType) {
       commit("setViewType", viewType);

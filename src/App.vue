@@ -63,7 +63,9 @@
 
 <script>
 import AppContainer from "./components/AppConainer.vue"
+import { useCookies } from "vue3-cookies";
 
+const { cookies } = useCookies();
 export default {
   name: 'App',
   data() {
@@ -73,12 +75,37 @@ export default {
   components: {
     AppContainer,
   },
+  created() {
+    if (!this.isLogin && cookies.get("token")) {
+      this.getUserMe();
+    }
+  },
   computed: {
     isLogin() {
       return this.$store.state.isLogin;
     },
   },
   methods: {
+    async getUserMe() {
+      try {
+        const response = await this.$axios.get(`${this.$store.state.host}/auth/me?token=${cookies.get("token")}`, {
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+
+        if (response.status == 200) {
+          // 조회 성공시 처리
+          const userData = response.data;
+          this.$store.dispatch('loadUser', userData.email);
+        } else {
+          alert("프로젝트 조회에 실패했습니다. 다시 시도해주세요");
+        }
+      } catch (error) {
+        console.log(error);
+        alert('프로젝트 조회 중 오류가 발생했습니다.');
+      }
+    },
     logout() {
       this.$store.dispatch('logout');
     },
@@ -100,6 +127,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.dropdown {
+  list-style-type: none;
+}
+
+.dropdown-item {
+  list-style-type: none;
+  /* 목록 마커 숨김 */
 }
 </style>

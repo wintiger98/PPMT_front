@@ -6,6 +6,15 @@ import router from "./router";
 import store from "./store.js";
 import mitt from "mitt";
 import axios from "axios";
+import { globalCookiesConfig } from "vue3-cookies";
+
+globalCookiesConfig({
+  expireTimes: "30d",
+  path: "/",
+  domain: "",
+  secure: true,
+  sameSite: "None",
+});
 
 let emitter = mitt();
 let app = createApp(App);

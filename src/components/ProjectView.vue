@@ -1,16 +1,18 @@
 <template>
     <div v-if="isModal" class="modal" style="display: flex">
         <div class="modal-content">
-            <Title></Title>
-            <Category></Category>
+            <Title :title="projectData.title" @update:title="updateProject"></Title>
+            <Category :categories="projectData.categories" @update:categories="updateProject"></Category>
             <Design></Design>
-            <Duration></Duration>
+            <Duration :startAt="projectData.start_at" :endAt="projectData.end_at" @update:endAt="updateProject"
+                @update:startAt="updateProject">
+            </Duration>
             <Progress></Progress>
             <Proposal></Proposal>
-            <Tech></Tech>
+            <Tech :tech="projectData.tech" @update:tech="updateProject"></Tech>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">닫기</button>
-                <button type="button" class="btn btn-primary">저장</button>
+                <button type="button" class="btn btn-primary" @click="saveProject">저장</button>
             </div>
         </div>
     </div>
@@ -27,6 +29,19 @@ import Tech from "./project/ProjectTech.vue";
 
 export default {
     name: "ProjectView",
+    data() {
+        return {
+            projectData: {},
+        }
+    },
+    props: {
+        projectId: Number,
+    },
+    created() {
+        if (this.projectId > 0) {
+            this.getProject();
+        }
+    },
     computed: {
         isModal() {
             return this.$store.state.isModal;
@@ -42,9 +57,55 @@ export default {
         Tech,
     },
     methods: {
+        async getProject() {
+            try {
+                const response = await this.$axios.get(`${this.$store.state.host}/projects/${this.projectId}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                });
+
+                if (response.status == 200) {
+                    // 조회 성공시 처리
+                    const projectData = response.data;
+                    console.log(projectData);
+                    this.projectData = projectData;
+                } else {
+                    alert("프로젝트 조회에 실패했습니다. 다시 시도해주세요");
+                }
+            } catch (error) {
+                console.log(error);
+                alert('프로젝트 조회 중 오류가 발생했습니다.');
+            }
+        },
         closeModal() {
             // 모달을 닫는 메소드
             this.$store.dispatch("closeModal");
+        },
+        async saveProject() {
+            // 프로젝트 저장 메소드
+            try {
+                const response = await this.$axios.put(`${this.$store.state.host}/projects/${this.projectId}`, this.projectData, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                });
+
+                if (response.status == 200) {
+                    // 생성 성공시 처리
+                    const newProject = response.data;
+                    console.log(newProject);
+                    this.$store.dispatch("closeModal");
+                } else {
+                    alert("프로젝트 생성에 실패했습니다. 다시 시도해주세요");
+                }
+            } catch (error) {
+                console.log(error);
+                alert('프로젝트 저장 중 오류가 발생했습니다.');
+            }
+        },
+        updateProject(data) {
+            this.projectData[data.key] = data.value;
         },
     }
 }
