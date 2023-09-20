@@ -17,12 +17,12 @@ export default {
     },
     watch: {
         localStartAt(newValue) {
-            const data = { key: "start_at", value: newValue.toISOString() };
+            const data = { key: "start_at", value: new Date(newValue).toISOString() };
             // localStartAt이 변경될 때, 부모 컴포넌트에 변경을 알립니다.
             this.$emit("update:startAt", data);
         },
         localEndAt(newValue) {
-            const data = { key: "end_at", value: newValue.toISOString() };
+            const data = { key: "end_at", value: new Date(newValue).toISOString() };
 
             // localEndAt이 변경될 때, 부모 컴포넌트에 변경을 알립니다.
             this.$emit("update:endAt", data);
