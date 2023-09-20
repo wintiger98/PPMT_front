@@ -113,7 +113,6 @@ export default {
 
 .delete {
     margin-left: 5px;
-    background-color: #ff6b6b;
     border: none;
     color: white;
     border-radius: 50%;
