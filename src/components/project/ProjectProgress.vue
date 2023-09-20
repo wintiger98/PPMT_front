@@ -1,5 +1,5 @@
 <template>
-    냠
+    진행상황
 </template>
 
 <script>

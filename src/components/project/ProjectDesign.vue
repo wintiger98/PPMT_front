@@ -1,5 +1,5 @@
 <template>
-    ㅁㄴㅇㄹ
+    디자인
 </template>
 
 <script>

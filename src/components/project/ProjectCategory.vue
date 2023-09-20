@@ -1,5 +1,5 @@
 <template>
-    ㅁㄴㅇㄹ
+    카테고리
 </template>
 
 <script>

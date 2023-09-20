@@ -1,5 +1,5 @@
 <template>
-    asdf
+    제안
 </template>
 
 <script>
