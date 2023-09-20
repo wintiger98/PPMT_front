@@ -82,6 +82,7 @@ export default {
             // 모달을 닫는 메소드
             this.$store.dispatch("closeModal");
             this.$emit('project:finish');
+            this.projectData = {};
         },
         async saveProject() {
             // 프로젝트 저장 메소드
