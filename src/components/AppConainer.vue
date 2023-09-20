@@ -1,10 +1,12 @@
 <template>
-  <ProjectCard v-if="viewType == 1" :projects="projects"></ProjectCard>
-  <ProjectList v-if="viewType == 2" :projects="projects"></ProjectList>
-  <ProjectTimeLine v-if="viewType == 3" :projects="projects"></ProjectTimeLine>
-  <br>
-  <button @click="plusButtonEvent" type="button" class="btn">➕</button>
-  <ProjectView :projectId="newProjectId" @project:finish="projectInit" />
+  <div class="d-flex justify-content-center align-items-center flex-column">
+    <ProjectCard v-if="viewType == 1" :projects="projects"></ProjectCard>
+    <ProjectList v-if="viewType == 2" :projects="projects"></ProjectList>
+    <ProjectTimeLine v-if="viewType == 3" :projects="projects"></ProjectTimeLine>
+    <br>
+    <button @click="plusButtonEvent" type="button" class="btn">➕</button>
+    <ProjectView :projectId="newProjectId" @project:finish="projectInit" />
+  </div>
 </template>
 
 <script>
