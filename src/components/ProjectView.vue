@@ -81,6 +81,7 @@ export default {
         closeModal() {
             // 모달을 닫는 메소드
             this.$store.dispatch("closeModal");
+            this.$emit('project:finish');
         },
         async saveProject() {
             // 프로젝트 저장 메소드
@@ -95,7 +96,7 @@ export default {
                     // 생성 성공시 처리
                     const newProject = response.data;
                     console.log(newProject);
-                    this.$store.dispatch("closeModal");
+                    this.closeModal();
                 } else {
                     alert("프로젝트 생성에 실패했습니다. 다시 시도해주세요");
                 }

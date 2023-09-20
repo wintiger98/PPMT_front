@@ -4,7 +4,7 @@
   <ProjectTimeLine v-if="viewType == 3"></ProjectTimeLine>
   <br>
   <button @click="plusButtonEvent" type="button" class="btn">➕</button>
-  <ProjectView :projectId="newProjectId" />
+  <ProjectView :projectId="newProjectId" @project:finish="projectInit" />
 </template>
 
 <script>
@@ -55,7 +55,10 @@ export default {
         return
       }
       this.$store.dispatch("openModal");
-    }
+    },
+    projectInit() {
+      this.newProjectId = 0;
+    },
   },
   components: {
     ProjectCard,
