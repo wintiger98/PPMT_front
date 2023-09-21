@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" style="max-width:fit-content">
         <div class="row mt-3" v-for="(projectPair, i) in projectPairs" :key="i">
             <div class="col-md-6" v-for="(project, j) in projectPair" :key="j">
                 <div class="card" style="width: 18rem;" v-if="project">
@@ -52,6 +52,7 @@ export default {
 
 <style>
 .container {
+    max-width: fit-content;
     width: fit-content;
 }
 
@@ -61,5 +62,6 @@ export default {
 
 .card {
     margin-top: 5%;
+    box-shadow: 2px 3px 5px 0px
 }
 </style>
