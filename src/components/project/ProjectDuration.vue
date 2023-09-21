@@ -1,4 +1,5 @@
 <template>
+    <button @click="check">냠</button>
     <div class="form-group">
         <label for="startAt">시작 날짜</label>
         <input type="date" id="startAt" v-model="localStartAt" @click="openDatePicker('startAt')">
@@ -11,11 +12,19 @@
 export default {
     data() {
         return {
-            localStartAt: this.startAt,
-            localEndAt: this.endAt,
+            localStartAt: "",
+            localEndAt: "",
         }
     },
     watch: {
+        startAt(newStartAt) {
+            // props인 startAt이 변경될 때 localStartAt을 업데이트합니다.
+            this.localStartAt = this.dateFormat(newStartAt);
+        },
+        endAt(newEndAt) {
+            // props인 endAt이 변경될 때 localEndAt을 업데이트합니다.
+            this.localEndAt = this.dateFormat(newEndAt);
+        },
         localStartAt(newValue) {
             const data = { key: "start_at", value: new Date(newValue).toISOString() };
             // localStartAt이 변경될 때, 부모 컴포넌트에 변경을 알립니다.
@@ -30,20 +39,31 @@ export default {
     },
     props: {
         startAt: {
-            type: Date,
+            type: String,
             default: "",
         },
         endAt: {
-            type: Date,
+            type: String,
             default: "",
         },
     },
     methods: {
+        check() {
+            console.log(this.startAt);
+            console.log(this.endAt);
+            console.log(this.localStartAt);
+            console.log(this.localEndAt);
+        },
         openDatePicker(inputField) {
             // 입력 필드를 클릭하면 날짜 선택을 위한 datepicker를 열도록 함
             // inputField 매개변수는 어떤 입력 필드를 클릭했는지 식별하는 데 사용됨
             const inputElement = document.getElementById(inputField);
             inputElement.focus();
+        },
+        dateFormat(dateString) {
+            const date = new Date(dateString);
+            const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+            return formattedDate;
         },
     },
 }

@@ -1,8 +1,9 @@
 <template>
-    <div v-if="isModal" class="modal" style="display: flex">
+    <div class="modal" style="display: flex">
         <div class="modal-content">
-            <Title :title="projectData.title" @update:title="updateProject"></Title>
-            <Description :description="projectData.description" @update:description="updateProject"></Description>
+            <Title :title="projectData.title || '프로젝트 제목'" @update:title="updateProject"></Title>
+            <Description :description="projectData.description || '프로젝트 설명'" @update:description="updateProject">
+            </Description>
             <Category :categories="projectData.categories" @update:categories="updateProject"></Category>
             <Design></Design>
             <Duration :startAt="projectData.start_at" :endAt="projectData.end_at" @update:endAt="updateProject"
@@ -37,11 +38,22 @@ export default {
         }
     },
     props: {
-        projectId: Number,
+        projectId: {
+            type: Number,
+            required: true,
+        },
     },
     created() {
         if (this.projectId > 0) {
             this.getProject();
+        }
+    },
+    watch: {
+        projectId(newProjectId) {
+            console.log("ProjectView created with projectId:", newProjectId);
+            if (newProjectId > 0) {
+                this.getProject();
+            }
         }
     },
     computed: {
