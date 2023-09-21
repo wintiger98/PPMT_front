@@ -6,6 +6,9 @@
                     <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
                     <div class="card-body">
                         <h5 class="card-title">{{ project.title || `프로젝트${(i + 1) * 2 + j + 1}` }}</h5>
+                        <small style="margin-left:70%;">
+                            {{ dateFormat(new Date(project.updated_at)) }}
+                        </small>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                             card's
                             content.</p>
@@ -46,6 +49,16 @@ export default {
             }
             return pairs;
         },
+    },
+    methods: {
+        dateFormat(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+
+            const formattedDate = `${year}/${month}/${day}`;
+            return formattedDate;
+        }
     },
 }
 </script>

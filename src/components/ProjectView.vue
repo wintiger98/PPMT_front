@@ -2,6 +2,7 @@
     <div v-if="isModal" class="modal" style="display: flex">
         <div class="modal-content">
             <Title :title="projectData.title" @update:title="updateProject"></Title>
+            <Description :description="projectData.description" @update:description="updateProject"></Description>
             <Category :categories="projectData.categories" @update:categories="updateProject"></Category>
             <Design></Design>
             <Duration :startAt="projectData.start_at" :endAt="projectData.end_at" @update:endAt="updateProject"
@@ -20,6 +21,7 @@
 
 <script>
 import Title from "./project/ProjectTitle.vue";
+import Description from "./project/ProjectDescription.vue";
 import Category from "./project/ProjectCategory.vue";
 import Design from "./project/ProjectDesign.vue";
 import Duration from "./project/ProjectDuration.vue";
@@ -49,6 +51,7 @@ export default {
     },
     components: {
         Title,
+        Description,
         Category,
         Design,
         Duration,
