@@ -34,4 +34,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+h5 {
+    width: -webkit-fill-available;
+}
+</style>

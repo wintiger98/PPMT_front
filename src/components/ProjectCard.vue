@@ -3,12 +3,17 @@
         <div class="row mt-3" v-for="(projectPair, i) in projectPairs" :key="i">
             <div class="col-md-6" v-for="(project, j) in projectPair" :key="j">
                 <div class="card" style="width: 18rem;" v-if="project" @click="openProject(project.id)">
-                    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+                    <div class="thumbnail">
+                        <img v-if="checkHasImage(project)" class="image card-img-top" :src="getImageUrl(project)" alt="">
+                        <img v-else class="image card-img-top" src="../assets/image/default_card_thumbnail.png"
+                            alt="Card image cap">
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ project.title || `프로젝트${(i + 1) * 2 + j + 1}` }}</h5>
                         <small style="margin-left:70%;">
                             {{ dateFormat(new Date(project.updated_at)) }}
                         </small>
+                        <br>
                         <p class="card-text">{{ project.description || '설명이 필요합니다' }}</p>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -55,7 +60,18 @@ export default {
         },
         openProject(projectId) {
             this.$emit('open:project', projectId)
-        }
+        },
+        getImageUrl(project) {
+            return project.project_contents[0].imageUrl;
+        },
+        checkHasImage(project) {
+            if (project.project_contents) {
+                if (project.project_contents[0].imageUrl) {
+                    return true;
+                }
+            }
+            return false;
+        },
     },
 }
 </script>
@@ -74,5 +90,14 @@ export default {
     margin-top: 5%;
     box-shadow: 2px 3px 5px 0px;
     cursor: pointer;
+}
+
+.thumbnail {
+    width: 80%;
+    align-self: center;
+}
+
+small {
+    float: right;
 }
 </style>

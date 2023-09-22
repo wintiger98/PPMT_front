@@ -1,12 +1,10 @@
 <template>
     <div class="form-group">
         <label for="categories">카테고리</label>
-        <div v-if="localCategories.length > 0">
-            <div class="stack">
-                <div class="stack-item" v-for="(category, index) in localCategories" :key="index">
-                    {{ category }}
-                    <button class="delete" @click="removeCategory(index)"> X </button>
-                </div>
+        <div class="stack">
+            <div class="stack-item" v-for="(category, index) in categories" :key="index">
+                {{ category }}
+                <button class="delete" @click="removeCategory(index)"> X </button>
             </div>
         </div>
         <button @click="showAddModal"> + </button>
@@ -42,7 +40,7 @@
 export default {
     data() {
         return {
-            localCategories: this.categories,
+            localCategories: [],
             newCategory: "",
             isAddModalVisible: false,
             toAddCategories: [],
@@ -81,6 +79,7 @@ export default {
         addCategory() {
             // 추가 모달 창의 결과 저장
             if (this.toAddCategories.length > 0) {
+                this.localCategories = this.categories || [];
                 this.localCategories.push(...this.toAddCategories);
                 this.isAddModalVisible = false;
                 const data = { key: "categories", value: this.localCategories };

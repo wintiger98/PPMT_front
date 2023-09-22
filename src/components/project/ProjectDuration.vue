@@ -1,5 +1,4 @@
 <template>
-    <button @click="check">냠</button>
     <div class="form-group">
         <label for="startAt">시작 날짜</label>
         <input type="date" id="startAt" v-model="localStartAt" @click="openDatePicker('startAt')">
@@ -48,12 +47,6 @@ export default {
         },
     },
     methods: {
-        check() {
-            console.log(this.startAt);
-            console.log(this.endAt);
-            console.log(this.localStartAt);
-            console.log(this.localEndAt);
-        },
         openDatePicker(inputField) {
             // 입력 필드를 클릭하면 날짜 선택을 위한 datepicker를 열도록 함
             // inputField 매개변수는 어떤 입력 필드를 클릭했는지 식별하는 데 사용됨

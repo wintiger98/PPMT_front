@@ -4,14 +4,14 @@
             <Title :title="projectData.title || '프로젝트 제목'" @update:title="updateProject"></Title>
             <Description :description="projectData.description || '프로젝트 설명'" @update:description="updateProject">
             </Description>
-            <Category :categories="projectData.categories" @update:categories="updateProject"></Category>
-            <Design></Design>
             <Duration :startAt="projectData.start_at" :endAt="projectData.end_at" @update:endAt="updateProject"
                 @update:startAt="updateProject">
             </Duration>
-            <Progress></Progress>
-            <Proposal></Proposal>
+            <Category :categories="projectData.categories" @update:categories="updateProject"></Category>
             <Tech :tech="projectData.tech" @update:tech="updateProject"></Tech>
+            <Design></Design>
+            <Proposal></Proposal>
+            <Progress></Progress>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">닫기</button>
                 <button type="button" class="btn btn-primary" @click="saveProject">저장</button>
