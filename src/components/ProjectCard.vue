@@ -10,17 +10,16 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ project.title || `프로젝트${(i + 1) * 2 + j + 1}` }}</h5>
-                        <small style="margin-left:70%;">
+                        <small style="color:silver">last updated</small>
+                        <br>
+                        <small>
                             {{ dateFormat(new Date(project.updated_at)) }}
                         </small>
                         <br>
                         <p class="card-text">{{ project.description || '설명이 필요합니다' }}</p>
+                        <br>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                    </ul>
+                    <ProgressBar :bgcolor="getBgColor(project)" :completed="calcCompleted(project)"></ProgressBar>
                 </div>
             </div>
         </div>
@@ -28,15 +27,21 @@
 </template>
 
 <script>
+import ProgressBar from "./ProgressBar.vue";
 export default {
     name: "ProjectCard",
     data() {
         return {
             cols: 2,
+            value: 45,
+            max: 100,
         }
     },
     props: {
         projects: Array,
+    },
+    components: {
+        ProgressBar,
     },
     computed: {
         projectPairs() {
@@ -71,6 +76,59 @@ export default {
                 }
             }
             return false;
+        },
+        checkProcessStatus(project) {
+            if (project.start_at && project.end_at) {
+                const currentDate = new Date();
+                const startAt = new Date(project.start_at);
+                const endAt = new Date(project.end_at);
+                if (currentDate < startAt) {
+                    return '시작전';
+                } else if (currentDate >= startAt && currentDate <= endAt) {
+                    return '진행중';
+                } else {
+                    return '종료';
+                }
+            } else {
+                return 'null';
+            }
+        },
+        calcCompleted(project) {
+            var completed;
+            switch (this.checkProcessStatus(project)) {
+                case '시작전':
+                    completed = 0;
+                    break;
+                case '진행중':
+                    var currentDate = new Date();
+                    var startAt = new Date(project.start_at);
+                    var endAt = new Date(project.end_at);
+                    completed = Math.round((currentDate - startAt) / (endAt - startAt) * 100, 2);
+                    break;
+                case '종료':
+                    completed = 100;
+                    break;
+                case 'null':
+                    completed = -1;
+                    break;
+            }
+            return completed;
+        },
+        getBgColor(project) {
+            var bgColor;
+            switch (this.checkProcessStatus(project)) {
+                case '시작전':
+                case '진행중':
+                    bgColor = '#6a1b9a';
+                    break;
+                case '종료':
+                    bgColor = '#6a1b9a';
+                    break;
+                case 'null':
+                    bgColor = 'darkgrey';
+                    break;
+            }
+            return bgColor;
         },
     },
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex justify-content-center align-items-center flex-column">
     <ProjectCard v-if="viewType == 1" :projects="projects" @open:project="openProject"></ProjectCard>
-    <ProjectList v-if="viewType == 2" :projects="projects"></ProjectList>
-    <ProjectTimeLine v-if="viewType == 3" :projects="projects"></ProjectTimeLine>
+    <ProjectList v-if="viewType == 2" :projects="projects" @open:project="openProject"></ProjectList>
+    <ProjectTimeLine v-if="viewType == 3" :projects="projects" @open:project="openProject"></ProjectTimeLine>
     <br>
     <button @click="plusButtonEvent" type="button" class="btn">➕</button>
     <!-- <ProjectView :projectId="projectId" @project:finish="projectInit" /> -->
@@ -36,25 +36,28 @@ export default {
   },
   methods: {
     async getProjects() {
-      try {
-        const response = await this.$axios.get(`${this.$store.state.host}/projects?token=${cookies.get('token')}`, {
-          headers: {
-            "Content-Type": "application/json",
-          }
-        });
+      if (cookies.get('token')) {
+        try {
+          const response = await this.$axios.get(`${this.$store.state.host}/projects?token=${cookies.get('token')}`, {
+            headers: {
+              "Content-Type": "application/json",
+            }
+          });
 
-        if (parseInt(response.status / 100) == 2) {
-          // 생성 성공시 처리
-          const userProjects = response.data;
-          console.log(userProjects);
-          this.projects = userProjects;
-        } else {
-          alert("프로젝트 생성에 실패했습니다. 다시 시도해주세요");
+          if (parseInt(response.status / 100) == 2) {
+            // 생성 성공시 처리
+            const userProjects = response.data;
+            console.log(userProjects);
+            this.projects = userProjects;
+          } else {
+            alert("프로젝트 조회에 실패했습니다. 다시 시도해주세요");
+          }
+        } catch (error) {
+          console.log(error);
+          alert("프로젝트 조회 중 오류가 발생했습니다");
         }
-      } catch (error) {
-        console.log(error);
-        alert("프로젝트 생성 중 오류가 발생했습니다");
       }
+
     },
     plusButtonEvent() {
       this.openProjectModal();

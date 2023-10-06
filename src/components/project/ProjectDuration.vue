@@ -11,8 +11,8 @@
 export default {
     data() {
         return {
-            localStartAt: "",
-            localEndAt: "",
+            localStartAt: null,
+            localEndAt: null,
         }
     },
     watch: {
@@ -39,11 +39,11 @@ export default {
     props: {
         startAt: {
             type: String,
-            default: "",
+            default: null,
         },
         endAt: {
             type: String,
-            default: "",
+            default: null,
         },
     },
     methods: {

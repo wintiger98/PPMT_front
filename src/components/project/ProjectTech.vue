@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="tech">기술 스택</label>
         <div class="stack">
-            <div class="stack-item" v-for="(t, index) in tech" :key="index">
+            <div class="stack-item" v-for="(t, index) in localTech" :key="index">
                 {{ t }}
                 <button class="delete" @click="removeTech(index)"> X </button>
             </div>
@@ -45,6 +45,11 @@ export default {
             isAddModalVisible: false,
             toAddTechs: [],
         };
+    },
+    watch: {
+        tech(newTech) {
+            this.localTech = newTech;
+        },
     },
     props: {
         tech: {

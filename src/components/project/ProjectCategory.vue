@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="categories">카테고리</label>
         <div class="stack">
-            <div class="stack-item" v-for="(category, index) in categories" :key="index">
+            <div class="stack-item" v-for="(category, index) in localCategories" :key="index">
                 {{ category }}
                 <button class="delete" @click="removeCategory(index)"> X </button>
             </div>
@@ -45,6 +45,11 @@ export default {
             isAddModalVisible: false,
             toAddCategories: [],
         };
+    },
+    watch: {
+        categories(newCategories) {
+            this.localCategories = newCategories;
+        },
     },
     props: {
         categories: {
