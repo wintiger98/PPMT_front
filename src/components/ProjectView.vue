@@ -9,12 +9,13 @@
             </Duration>
             <Category :categories="projectData.categories" @update:categories="updateProject"></Category>
             <Tech :tech="projectData.tech" @update:tech="updateProject"></Tech>
-            <Design></Design>
-            <Proposal></Proposal>
-            <Progress></Progress>
+
+            <ProjectContentModal style="display:none"></ProjectContentModal>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">닫기</button>
                 <button type="button" class="btn btn-primary" @click="saveProject">저장</button>
+                <button type="button" class="btn btn-danger" @click="deleteProject">삭제</button>
             </div>
         </div>
     </div>
@@ -24,17 +25,16 @@
 import Title from "./project/ProjectTitle.vue";
 import Description from "./project/ProjectDescription.vue";
 import Category from "./project/ProjectCategory.vue";
-import Design from "./project/ProjectDesign.vue";
 import Duration from "./project/ProjectDuration.vue";
-import Progress from "./project/ProjectProgress.vue";
-import Proposal from "./project/ProjectProposal.vue";
 import Tech from "./project/ProjectTech.vue";
+import ProjectContentModal from "./ProjectContentModal.vue";
 
 export default {
     name: "ProjectView",
     data() {
         return {
             projectData: {},
+            showModal: false,
         }
     },
     props: {
@@ -65,11 +65,9 @@ export default {
         Title,
         Description,
         Category,
-        Design,
         Duration,
-        Progress,
-        Proposal,
         Tech,
+        ProjectContentModal,
     },
     methods: {
         async getProject() {
@@ -123,6 +121,27 @@ export default {
         },
         updateProject(data) {
             this.projectData[data.key] = data.value;
+        },
+        async deleteProject() {
+            try {
+                const response = await this.$axios.delete(`${this.$store.state.host}/projects/${this.projectId}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                });
+
+                if (response.status == 200) {
+                    // 삭제 성공시 처리
+                    const newProject = response.data;
+                    console.log(newProject);
+                    this.closeModal();
+                } else {
+                    alert("프로젝트 삭제에 실패했습니다. 다시 시도해주세요");
+                }
+            } catch (error) {
+                console.log(error);
+                alert('프로젝트 삭제 중 오류가 발생했습니다.');
+            }
         },
     }
 }

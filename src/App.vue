@@ -11,7 +11,7 @@
           <li class="nav-item">
             <router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
           </li>
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               View Type
             </a>
@@ -23,7 +23,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" aria-disabled="true">Link</a>
-          </li>
+          </li> -->
         </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -58,7 +58,8 @@
     <router-view></router-view>
     <!-- <PostList :posts="posts"/> -->
   </div>
-  <AppContainer />
+  <component :is="currentComponent"></component>
+  <!-- <AppContainer /> -->
 </template>
 
 <script>
@@ -70,7 +71,17 @@ export default {
   name: 'App',
   data() {
     return {
+      currentComponent: null,
     }
+  },
+  watch: {
+    isLogin(newValue) {
+      if (newValue) {
+        this.currentComponent = AppContainer;
+      } else {
+        this.currentComponent = null;
+      }
+    },
   },
   components: {
     AppContainer,
@@ -99,11 +110,12 @@ export default {
           const userData = response.data;
           this.$store.dispatch('loadUser', userData.email);
         } else {
-          alert("프로젝트 조회에 실패했습니다. 다시 시도해주세요");
+          alert("내 정보 조회에 실패했습니다. 다시 시도해주세요");
         }
       } catch (error) {
         console.log(error);
-        alert('프로젝트 조회 중 오류가 발생했습니다.');
+        alert('내 정보 조회 중 오류가 발생했습니다.');
+        this.logout();
       }
     },
     logout() {
@@ -115,7 +127,6 @@ export default {
   }
 }
 </script>
-
 <style>
 .login {
   margin-left: 5px;

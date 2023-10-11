@@ -7,6 +7,7 @@ import store from "./store.js";
 import mitt from "mitt";
 import axios from "axios";
 import { globalCookiesConfig } from "vue3-cookies";
+import { vfmPlugin } from "vue-final-modal";
 
 globalCookiesConfig({
   expireTimes: "30d",
@@ -22,4 +23,11 @@ app.config.globalProperties.emitter = emitter;
 app.config.globalProperties.$axios = axios;
 app.use(store);
 app.use(router);
+app.use(
+  vfmPlugin({
+    key: "$vfm",
+    componentName: "VueFinalModal",
+    dynamicContainerName: "ModalsContainer",
+  })
+);
 app.mount("#app");
