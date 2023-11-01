@@ -10,7 +10,8 @@
             <Category :categories="projectData.categories" @update:categories="updateProject"></Category>
             <Tech :tech="projectData.tech" @update:tech="updateProject"></Tech>
 
-            <ProjectContentModal style="display:none"></ProjectContentModal>
+            <button @click="showModal = true" class="styled-button">내용 추가</button>
+            <ProjectContentModal :showModal="showModal" @close="showModal = false"></ProjectContentModal>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">닫기</button>
@@ -255,6 +256,20 @@ label {
 
 .add {
     border-color: transparent;
+}
+
+.styled-button {
+    background-color: #4CAF50;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 </style>
   
