@@ -23,7 +23,8 @@
                 </div>
             </div>
             <button @click="showDetailModal = true" class="styled-button">선택</button>
-            <ProjectContentDetailVue :showModal="showDetailModal" :title="title" @close="showDetailModal = false">
+            <ProjectContentDetailVue :showModal="showDetailModal" :title="title" @close="showDetailModal = false"
+                @save="saveContentDetail">
             </ProjectContentDetailVue>
         </vue-final-modal>
     </div>
@@ -64,6 +65,9 @@ export default {
         },
         setTitle(value) {
             this.title = value;
+        },
+        saveContentDetail(data) {
+            this.$emit('save', data);
         }
     },
     components: {

@@ -10,8 +10,13 @@
             <Category :categories="projectData.categories" @update:categories="updateProject"></Category>
             <Tech :tech="projectData.tech" @update:tech="updateProject"></Tech>
 
+            <div v-for="content in projectData.project_contents" :key="content">
+                <ProjectContent :projectContent="content"></ProjectContent>
+            </div>
+
             <button @click="showModal = true" class="styled-button">내용 추가</button>
-            <ProjectContentModal :showModal="showModal" @close="showModal = false"></ProjectContentModal>
+            <ProjectContentModal :showModal="showModal" @close="showModal = false" @save="saveProjectContent">
+            </ProjectContentModal>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">닫기</button>
@@ -29,12 +34,13 @@ import Category from "./project/ProjectCategory.vue";
 import Duration from "./project/ProjectDuration.vue";
 import Tech from "./project/ProjectTech.vue";
 import ProjectContentModal from "./ProjectContentModal.vue";
+import ProjectContent from "./project/ProjectContent.vue";
 
 export default {
     name: "ProjectView",
     data() {
         return {
-            projectData: {},
+            projectData: { "project_contents": [] },
             showModal: false,
         }
     },
@@ -69,6 +75,7 @@ export default {
         Duration,
         Tech,
         ProjectContentModal,
+        ProjectContent,
     },
     methods: {
         async getProject() {
@@ -143,6 +150,9 @@ export default {
                 console.log(error);
                 alert('프로젝트 삭제 중 오류가 발생했습니다.');
             }
+        },
+        saveProjectContent(data) {
+            this.projectData["project_contents"].push(data);
         },
     }
 }

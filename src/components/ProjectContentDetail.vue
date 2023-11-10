@@ -8,14 +8,23 @@
             <div class="modal__content">
                 <div class="max-w-md mx-auto">
                     <div class="input-group mb-3">
-                        <input type="file" class="form-control" id="inputGroupFile02">
+                        <input type="file" class="form-control" id="inputGroupFile02" @change="handleFileUpload">
                         <label class="input-group-text" for="inputGroupFile02">Upload</label>
                     </div>
                     <div>
+                        <label for="link-url">링크:</label>
+                        <input id="link-url" v-model="linkUrl" type="text" class="styled-input">
+                    </div>
+                    <div>
                         <label for="direct-input">내용 입력:</label>
-                        <input id="direct-input" v-model="directInput" type="text" class="styled-input">
+                        <input id="direct-input" v-model="detailContent" type="text" class="styled-input">
                     </div>
                 </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">닫기</button>
+                <button type="button" class="btn btn-primary" @click="saveProjectContent">저장</button>
             </div>
         </vue-final-modal>
     </div>
@@ -26,7 +35,9 @@ export default {
     data: () => ({
         localShowModal: false,
         localTitle: "",
-        directInput: "",
+        detailContent: "",
+        linkUrl: "",
+        imageData: "",
     }),
     props: {
         title: {
@@ -59,6 +70,19 @@ export default {
     methods: {
         closeModal() {
             this.$emit('close');
+        },
+        async handleFileUpload(event) {
+            const file = event.target.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            this.imageData = formData;
+        },
+        saveProjectContent() {
+            const data = { "title": this.localTitle, "image": this.imageData, "link_url": this.linkUrl, "contents": this.detailContent };
+            console.log(data);
+            this.$emit('save', data);
+            this.closeModal();
         },
     },
     components: {
