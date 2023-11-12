@@ -1,14 +1,14 @@
 <template>
     <div class="form-group">
-        <label>{{ localProjectContent.title }}</label>
-        <div v-if="localProjectContent.image_url">
-            <img :src="localProjectContent.image_url" class="img-thumbnail" alt="...">
+        <label>{{ projectContent.title }}</label>
+        <div v-if="projectContent.image_url">
+            <img :src="projectContent.image_url" class="img-thumbnail" alt="...">
         </div>
-        <div v-if="localProjectContent.link_url">
-            {{ localProjectContent.link_url }}
+        <div v-if="projectContent.link_url">
+            {{ projectContent.link_url }}
         </div>
-        <div v-if="localProjectContent.contents">
-            {{ localProjectContent.contents }}
+        <div v-if="projectContent.contents">
+            {{ projectContent.contents }}
         </div>
     </div>
 </template>
