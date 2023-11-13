@@ -7,10 +7,10 @@
             <span class="modal__title">{{ title }}</span>
             <div class="modal__content">
                 <div class="max-w-md mx-auto">
-                    <div class="input-group mb-3">
+                    <!-- <div class="input-group mb-3">
                         <input type="file" class="form-control" id="inputGroupFile02" @change="handleFileUpload">
                         <label class="input-group-text" for="inputGroupFile02">Upload</label>
-                    </div>
+                    </div> -->
                     <div>
                         <label for="link-url">링크:</label>
                         <input id="link-url" v-model="linkUrl" type="text" class="styled-input">
